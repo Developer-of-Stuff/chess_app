@@ -2,6 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.MainController" minHeight="400.0" minWidth="600.0">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.MainController">
+
+    <GridPane fx:id="boardGUI">
+
+    </GridPane>
 
 </HBox>
