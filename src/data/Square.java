@@ -3,8 +3,8 @@ package data;
 public class Square {
 
     private boolean occupied;
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     public Square(boolean occupied, int row, int column) {
         this.occupied = occupied;
@@ -24,15 +24,20 @@ public class Square {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public int getColumn() {
         return column;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public char getColumnLetter() {
+        switch(column) {
+            case 1: return 'A';
+            case 2: return 'B';
+            case 3: return 'C';
+            case 4: return 'D';
+            case 5: return 'E';
+            case 6: return 'F';
+            case 7: return 'G';
+            default: return 'H';
+        }
     }
 }

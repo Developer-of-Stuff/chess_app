@@ -2,9 +2,9 @@ package gui;
 
 import data.Square;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 public class MainController {
 
@@ -13,31 +13,36 @@ public class MainController {
     private final Square[][] board = new Square[8][8];
 
     public void initialize() {
-        for (int i = 0; i < 8; i++) { // row
-            for (int j = 0; j < 8; j++) { // column
-                String color;
+        for (int i = 0; i < 8; i++) { // column
+            for (int j = 0; j < 8; j++) { // row
+                String type;
                 if (i % 2 == 0) {
                     if (j % 2 == 0) {
-                        color = "#3E2722";
+                        type = "dark-square";
                     }
                     else {
-                        color = "#F9C79F";
+                        type = "light-square";
                     }
                 }
                 else {
                     if (j % 2 == 0) {
-                        color = "#F9C79F";
+                        type = "light-square";
                     }
                     else {
-                        color = "#3E2722";
+                        type = "dark-square";
                     }
                 }
-                Square newSquare = new Square(false, i + 1, j + 1);
+                Square newSquare = new Square(false, j + 1, i + 1);
                 board[i][j] = newSquare;
                 Button newButton = new Button();
-                newButton.setMinSize(50, 50);
-                newButton.setStyle("-fx-background-color: " + color);
-                boardGUI.add(newButton, i, j);
+                newButton.setText("" + newSquare.getColumnLetter() + newSquare.getRow());
+                newButton.setAlignment(Pos.BOTTOM_LEFT);
+                newButton.setMinSize(75, 75);
+                newButton.setFocusTraversable(false);
+                newButton.getStyleClass().add("square");
+                newButton.getStyleClass().add(type);
+                newButton.onMouseClickedProperty().set(click -> System.out.println(newButton.getText()));
+                boardGUI.add(newButton, i, Math.abs(j - 7));
             }
         }
     }

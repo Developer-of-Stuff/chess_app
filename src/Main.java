@@ -17,6 +17,7 @@ public class Main extends Application {
         URL primaryScenePath = getClass().getResource("gui/mainPage.fxml");
         assert primaryScenePath != null;
         Scene scene = new Scene(FXMLLoader.load(primaryScenePath));
+        scene.getStylesheets().add("gui/css/styles.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Chess Application");
         primaryStage.show();

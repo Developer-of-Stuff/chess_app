@@ -2,7 +2,12 @@
 
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <HBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.MainController">
+
+    <padding>
+        <Insets topRightBottomLeft="60"/>
+    </padding>
 
     <GridPane fx:id="boardGUI">
 
