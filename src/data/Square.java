@@ -1,15 +1,38 @@
 package data;
 
-public class Square {
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+
+public class Square extends Button {
 
     private boolean occupied;
+    private Piece piece;
+    private final StackPane display;
+    private final ImageView pieceIcon;
     private final int row;
     private final int column;
 
-    public Square(boolean occupied, int row, int column) {
-        this.occupied = occupied;
+    public Square(int row, int column) {
+        this.occupied = false;
         this.row = row;
         this.column = column;
+        this.display = new StackPane();
+        this.pieceIcon = new ImageView();
+        this.pieceIcon.setPreserveRatio(true);
+        this.pieceIcon.setFitWidth(70);
+        this.pieceIcon.setTranslateX(8);
+        this.pieceIcon.setTranslateY(-5);
+        this.display.getChildren().add(new Text(getSquareID()));
+        this.display.getChildren().add(this.pieceIcon);
+        this.display.setAlignment(Pos.BOTTOM_LEFT);
+        setGraphic(this.display);
+        setMinSize(100, 100);
+        setFocusTraversable(false);
+        getStyleClass().add("square");
     }
 
     public boolean isOccupied() {
@@ -18,6 +41,20 @@ public class Square {
 
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
+    }
+
+    public Piece getPiece() { return piece; }
+
+    public void setPiece(Piece piece) { this.piece = piece; }
+
+    public StackPane getDisplay() { return display; }
+
+    public ImageView getPieceIcon() {
+        return pieceIcon;
+    }
+
+    public void setPieceIcon(Image pieceImage) {
+        this.pieceIcon.setImage(pieceImage);
     }
 
     public int getRow() {
@@ -39,5 +76,9 @@ public class Square {
             case 7: return 'G';
             default: return 'H';
         }
+    }
+
+    public String getSquareID() {
+        return "" + getColumnLetter() + getRow();
     }
 }

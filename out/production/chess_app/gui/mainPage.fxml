@@ -3,14 +3,23 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.MainController">
+<?import javafx.scene.control.Button?>
+<VBox fx:id="window" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.MainController" spacing="10">
 
     <padding>
-        <Insets topRightBottomLeft="60"/>
+        <Insets topRightBottomLeft="20"/>
     </padding>
 
-    <GridPane fx:id="boardGUI">
+    <GridPane fx:id="boardGUI" styleClass="shadow"/>
 
-    </GridPane>
+    <HBox fx:id="options" alignment="CENTER">
+        <Button text="New Game" styleClass="button" onAction="#newGameHandler"/>
+        <Button text="Flip Board" styleClass="button"/>
+        <Button text="Generate PGN File" styleClass="button"/>
 
-</HBox>
+        <padding>
+            <Insets topRightBottomLeft="20"/>
+        </padding>
+    </HBox>
+
+</VBox>

@@ -1,18 +1,36 @@
-* {
-    -fx-background-color: #777765;
+#window {
+    -fx-background-color: #272727;
+}
+
+.button {
+    -fx-background-color: #0A0A0A;
+    -fx-text-fill: #DDDDDD;
+    -fx-padding: 15px;
 }
 
 .square {
     -fx-background-radius: 0px;
-    -fx-padding: 2px;
+    -fx-padding: 0px;
+}
+
+.shadow {
+    -fx-effect: dropshadow(gaussian, #000000, 10, 0, 4px, 4px);
 }
 
 .dark-square {
     -fx-background-color: #3E2722;
-    -fx-text-fill: #F9C79FAA;
+    -fx-padding: 3px;
+}
+
+.dark-square > * {
+    -fx-fill: #F9C79FAA;
 }
 
 .light-square {
     -fx-background-color: #F9C79F;
-    -fx-text-fill: #3E2722AA;
+    -fx-padding: 3px;
+}
+
+.light-square > * {
+    -fx-fill: #3E2722AA;
 }
