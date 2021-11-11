@@ -18,7 +18,7 @@
 }
 
 .dark-square {
-    -fx-background-color: #3E2722;
+    -fx-background-color: #4E3732;
     -fx-padding: 3px;
 }
 
@@ -32,5 +32,5 @@
 }
 
 .light-square > * {
-    -fx-fill: #3E2722AA;
+    -fx-fill: #4E3732AA;
 }

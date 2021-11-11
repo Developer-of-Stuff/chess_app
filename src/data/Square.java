@@ -25,7 +25,7 @@ public class Square extends Button {
         this.pieceIcon.setPreserveRatio(true);
         this.pieceIcon.setFitWidth(70);
         this.pieceIcon.setTranslateX(8);
-        this.pieceIcon.setTranslateY(-5);
+        this.pieceIcon.setTranslateY(-8);
         this.display.getChildren().add(new Text(getSquareID()));
         this.display.getChildren().add(this.pieceIcon);
         this.display.setAlignment(Pos.BOTTOM_LEFT);
@@ -45,25 +45,24 @@ public class Square extends Button {
 
     public Piece getPiece() { return piece; }
 
-    public void setPiece(Piece piece) { this.piece = piece; }
+    public void setPiece(Piece piece) {
+        if (piece == null) {
+            this.piece = null;
+            setPieceIconView(null);
+        }
+        else {
+            this.piece = piece;
+            setPieceIconView(this.piece.getPieceIcon());
+        }
+    }
 
     public StackPane getDisplay() { return display; }
 
-    public ImageView getPieceIcon() {
-        return pieceIcon;
-    }
+    public void setPieceIconView(Image pieceImage) { this.pieceIcon.setImage(pieceImage); }
 
-    public void setPieceIcon(Image pieceImage) {
-        this.pieceIcon.setImage(pieceImage);
-    }
+    public int getRow() { return row; }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
+    public int getColumn() { return column; }
 
     public char getColumnLetter() {
         switch(column) {
@@ -78,7 +77,5 @@ public class Square extends Button {
         }
     }
 
-    public String getSquareID() {
-        return "" + getColumnLetter() + getRow();
-    }
+    public String getSquareID() { return "" + getColumnLetter() + getRow(); }
 }
