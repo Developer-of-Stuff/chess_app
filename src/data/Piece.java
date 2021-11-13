@@ -4,21 +4,18 @@ import javafx.scene.image.Image;
 
 public abstract class Piece {
 
-    private String color;
+    private final String color;
     private Square currentSquare;
     private Image pieceIcon;
 
     public Piece(String color, Square currentSquare) {
         this.color = color;
         this.currentSquare = currentSquare;
+        setPieceIcon(new Image("piece_icons/" + color + this.getClass().getSimpleName() + ".png"));
     }
 
     public String getColor() {
         return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public Square getCurrentSquare() { return currentSquare; }
@@ -31,5 +28,5 @@ public abstract class Piece {
 
     public abstract boolean move(Square destinationSquare);
 
-    public abstract boolean attack();
+    public abstract boolean attack(Square destinationSquare);
 }

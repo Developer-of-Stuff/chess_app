@@ -48,10 +48,12 @@ public class Square extends Button {
     public void setPiece(Piece piece) {
         if (piece == null) {
             this.piece = null;
+            this.occupied = false;
             setPieceIconView(null);
         }
         else {
             this.piece = piece;
+            this.occupied = true;
             setPieceIconView(this.piece.getPieceIcon());
         }
     }

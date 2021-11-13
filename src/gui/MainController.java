@@ -1,7 +1,6 @@
 package gui;
 
-import data.Pawn;
-import data.Square;
+import data.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -59,17 +58,96 @@ public class MainController {
                     dragEvent.consume();
                 });
 
+                newSquare.setOnDragDone(dragEvent -> {
+                    Dragboard db = dragEvent.getDragboard();
+                    if (!(dragEvent.getTransferMode() == TransferMode.MOVE)) {
+                        moveOriginSquare.setPieceIconView(db.getImage());
+                    }
+                    dragEvent.consume();
+                });
+
                 newSquare.setOnDragDropped(dragEvent -> {
                     Dragboard db = dragEvent.getDragboard();
+                    boolean success = false;
                     if (moveOriginSquare.getPiece().move(newSquare)) {
-                        newSquare.setPiece(moveOriginSquare.getPiece());
-                        newSquare.getPiece().setCurrentSquare(newSquare);
-                        moveOriginSquare.setPiece(null);
+//                        Handle pathing, i.e. if a piece is in the way.
+                        int rowDistance = newSquare.getRow() - moveOriginSquare.getRow();
+                        int columnDistance = newSquare.getColumn() - moveOriginSquare.getColumn();
+                        boolean pathSuccess = true;
+//                        Forward or backward movement.
+                        if (rowDistance != 0 && columnDistance == 0) {
+                            int sign = -1;
+                            if (rowDistance < 0) {
+                                sign = 1;
+                            }
+                            while (rowDistance != 0) {
+                                Square checkedSquare = getSquareFromBoard(moveOriginSquare.getColumn(), moveOriginSquare.getRow() + rowDistance);
+                                if (checkedSquare.getPiece() != null) {
+                                    if (!(checkedSquare == newSquare)) {
+                                        System.out.println("Square " + checkedSquare.getSquareID() + " is occupied!");
+                                        pathSuccess = false;
+                                        break;
+                                    }
+                                }
+                                rowDistance = rowDistance + sign;
+                            }
+                        }
+//                        Lateral movement.
+                        else if (columnDistance != 0 && rowDistance == 0) {
+                            int sign = -1;
+                            if (columnDistance < 0) {
+                                sign = 1;
+                            }
+                            while (columnDistance != 0) {
+                                Square checkedSquare = getSquareFromBoard(moveOriginSquare.getColumn() + columnDistance, moveOriginSquare.getRow());
+                                if (checkedSquare.getPiece() != null) {
+                                    if (!(checkedSquare == newSquare)) {
+                                        System.out.println("Square " + checkedSquare.getSquareID() + " is occupied!");
+                                        pathSuccess = false;
+                                        break;
+                                    }
+                                }
+                                columnDistance = columnDistance + sign;
+                            }
+                        }
+//                        Diagonal movement.
+                        else if (Math.abs(columnDistance) == Math.abs(rowDistance)) {
+                            int rowSign = -1;
+                            int columnSign = -1;
+                            if (columnDistance < 0) {
+                                columnSign = 1;
+                            }
+                            if (rowDistance < 0) {
+                                rowSign = 1;
+                            }
+                            while (columnDistance != 0 && rowDistance != 0) {
+                                Square checkedSquare = getSquareFromBoard(moveOriginSquare.getColumn() + columnDistance, moveOriginSquare.getRow() + rowDistance);
+                                if (checkedSquare.getPiece() != null) {
+                                    if (!(checkedSquare == newSquare)) {
+                                        System.out.println("Square " + checkedSquare.getSquareID() + " is occupied!");
+                                        pathSuccess = false;
+                                        break;
+                                    }
+                                }
+                                columnDistance = columnDistance + columnSign;
+                                rowDistance = rowDistance + rowSign;
+                            }
+                        }
+
+                        if (pathSuccess) {
+                            newSquare.setPiece(moveOriginSquare.getPiece());
+                            newSquare.getPiece().setCurrentSquare(newSquare);
+                            moveOriginSquare.setPiece(null);
+                            success = true;
+                        }
+                        else {
+                            moveOriginSquare.setPieceIconView(db.getImage());
+                        }
                     }
                     else {
                         moveOriginSquare.setPieceIconView(db.getImage());
                     }
-                    dragEvent.setDropCompleted(true);
+                    dragEvent.setDropCompleted(success);
                     dragEvent.consume();
                 });
 
@@ -101,22 +179,35 @@ public class MainController {
             if (row == 1 || row == 8) {
                 switch (column) {
                     case 1: case 8:
-                        square.setPieceIconView(new Image("piece_icons/" + color + "Rook.png"));
+                        square.setPiece(new Rook(color, square));
                         break;
                     case 2: case 7:
-                        square.setPieceIconView(new Image("piece_icons/" + color + "Knight.png"));
+                        square.setPiece(new Knight(color, square));
                         break;
                     case 3: case 6:
-                        square.setPieceIconView(new Image("piece_icons/" + color + "Bishop.png"));
+                        square.setPiece(new Bishop(color, square));
                         break;
                     case 4:
-                        square.setPieceIconView(new Image("piece_icons/" + color + "Queen.png"));
+                        square.setPiece(new Queen(color, square));
                         break;
                     case 5:
-                        square.setPieceIconView(new Image("piece_icons/" + color + "King.png"));
+                        square.setPiece(new King(color, square));
                 }
             }
+            else if (row < 7 && row > 2) {
+                square.setPiece(null);
+            }
         }
+    }
+
+    public Square getSquareFromBoard(int col, int row) {
+        for (Node node : boardGUI.getChildren()) {
+            Square square = (Square) node;
+            if (square.getRow() == row && square.getColumn() == col) {
+                return square;
+            }
+        }
+        return null;
     }
 
 }

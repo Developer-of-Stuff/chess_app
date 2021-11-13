@@ -1,14 +1,11 @@
 package data;
 
-import javafx.scene.image.Image;
-
 public class Pawn extends Piece {
 
     private boolean firstMove = true;
 
     public Pawn(String color, Square currentSquare) {
         super(color, currentSquare);
-        setPieceIcon(new Image("piece_icons/" + color + "Pawn.png"));
     }
 
     @Override
@@ -18,14 +15,7 @@ public class Pawn extends Piece {
         if (getColor().equals("White")) {
             if (rowDistance <= 2 && rowDistance > 0) {
                 if (destinationSquare.isOccupied()) {
-                    if (!destinationSquare.getPiece().getColor().equals(this.getColor())) {
-                        if (columnDistance == 1 || columnDistance == -1) {
-                            return attack();
-                        }
-                        else {
-                            return false;
-                        }
-                    }
+                    return attack(destinationSquare);
                 }
                 else {
                     if (columnDistance == 0) {
@@ -42,11 +32,7 @@ public class Pawn extends Piece {
         else {
             if (rowDistance >= -2 && rowDistance < 0) {
                 if (destinationSquare.isOccupied()) {
-                    if (!destinationSquare.getPiece().getColor().equals(this.getColor())) {
-                        if (columnDistance == 1 || columnDistance == -1) {
-                            return attack();
-                        }
-                    }
+                    return attack(destinationSquare);
                 }
                 else {
                     if (columnDistance == 0) {
@@ -62,7 +48,16 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean attack() {
+    public boolean attack(Square destinationSquare) {
+        int columnDistance = destinationSquare.getColumn() - getCurrentSquare().getColumn();
+        if (!destinationSquare.getPiece().getColor().equals(this.getColor())) {
+            if (columnDistance == 1 || columnDistance == -1) {
+                return !destinationSquare.getPiece().getClass().getSimpleName().equals("King");
+            }
+            else {
+                return false;
+            }
+        }
         return false;
     }
 }
