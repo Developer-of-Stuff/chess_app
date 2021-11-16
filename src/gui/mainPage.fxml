@@ -14,7 +14,7 @@
 
     <HBox fx:id="options" alignment="CENTER">
         <Button text="New Game" styleClass="button" onAction="#newGameHandler"/>
-        <Button text="Flip Board" styleClass="button"/>
+        <Button text="Flip Board" styleClass="button" onAction="#flipBoardHandler"/>
         <Button text="Generate PGN File" styleClass="button"/>
 
         <padding>

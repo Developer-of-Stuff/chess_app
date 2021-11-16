@@ -52,6 +52,9 @@ public class Pawn extends Piece {
         int columnDistance = destinationSquare.getColumn() - getCurrentSquare().getColumn();
         if (!destinationSquare.getPiece().getColor().equals(this.getColor())) {
             if (columnDistance == 1 || columnDistance == -1) {
+                if (!destinationSquare.getPiece().getClass().getSimpleName().equals("King") && firstMove) {
+                    firstMove = false;
+                }
                 return !destinationSquare.getPiece().getClass().getSimpleName().equals("King");
             }
             else {

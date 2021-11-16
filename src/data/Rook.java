@@ -1,13 +1,15 @@
 package data;
 
-import gui.MainController;
-
 public class Rook extends Piece {
 
-    private boolean firstMove;
+    private boolean firstMove = true;
 
     public Rook(String color, Square currentSquare) {
         super(color, currentSquare);
+    }
+
+    public boolean isFirstMove() {
+        return firstMove;
     }
 
     @Override
@@ -31,6 +33,9 @@ public class Rook extends Piece {
     @Override
     public boolean attack(Square destinationSquare) {
         if (!destinationSquare.getPiece().getColor().equals(this.getColor())) {
+            if (!destinationSquare.getPiece().getClass().getSimpleName().equals("King") && firstMove) {
+                firstMove = false;
+            }
             return !destinationSquare.getPiece().getClass().getSimpleName().equals("King");
         }
         return false;
